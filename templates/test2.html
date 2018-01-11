@@ -1,0 +1,115 @@
+
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='jquery.serializejson.js') }}"></script>
+
+</head>
+<body>
+<div>
+    <form name="search" id="search">
+        <input type="text" id="keyword" name="keyword">
+        <input type="text" id="location" name="location">
+        <button type="submit">Search</button>
+    </form>
+</div>
+
+<script>
+    {% set search = localStorage.search_results|tojson|safe %}
+</script>
+{{ search['address'] }}
+
+<script>
+    $( '#search' ).submit(function(e) {
+
+        var url = "/places/search_places";
+        var form_data = $( '#search' ).serializeJSON();
+
+        $.ajax({
+
+           type: "POST",
+           url: url,
+           contentType: 'application/JSON',
+           data: JSON.stringify(form_data),
+           success: function(response)
+           {
+              var search_result = response.query;
+              var result_url = "test/test2?search=" + search_result;
+              console.log(search_result);
+              window.location.href = result_url;
+           }
+
+        })
+     e.preventDefault();
+    })
+
+
+
+
+</script>
+
+
+<!---
+<div id="div_login">
+    <form name="login" id="login">
+        <input type="text" name="email" id="email">
+        <input type="password" name="password" id="password">
+        <button type="submit">Submit</button>
+    </form>
+</div>
+<div id="logged" style="display: none">
+    Logged In
+</div>
+
+<div id="request">
+    GET REQUEST CLICK ME
+</div>
+
+</body>
+<script>
+    $( "#request" ).click(function() {
+
+          var url = "/auth/login_user"; // the script where you handle the form input.
+
+          $.ajax({
+                   type: "GET",
+                   url: url,
+                   contentType: 'application/JSON',
+                   headers: { "X-API-KEY" : localStorage.token },
+                   success: function()
+                   {
+                        //
+                   }
+                 });
+});
+</script>
+
+<script>
+$("#login").submit(function(e) {
+
+    var url = "/auth/login_user"; // the script where you handle the form input.
+    var form_data = $('#login').serializeJSON();
+
+    $.ajax({
+           type: "POST",
+           url: url,
+           contentType: 'application/JSON',
+           data: JSON.stringify(form_data),
+           success: function(data)
+           {
+              localStorage.token = data.token
+              sessionStorage.token = data.token
+              $( "#div_login" ).hide()
+                      $( "#logged" ).show()
+           }
+         });
+
+    e.preventDefault(); // avoid to execute the actual submit of the form.
+});
+</script>
+-->
+
+</html>
