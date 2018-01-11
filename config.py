@@ -10,7 +10,7 @@ BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
 
 # Define the database
-SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:mdhsgolf1@localhost/ultrafran'
+SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:BhCnutpg1!@35.184.89.176/franfave'
 DATABASE_CONNECT_OPTIONS = {}
 
 
