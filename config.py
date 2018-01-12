@@ -21,7 +21,7 @@ CLOUDSQL_CONNECTION_NAME = 'franfave-191811:us-central1:franfave'
 SQLALCHEMY_DATABASE_URI = 'postgresql://{user}:{password}@/{database}?host=/cloudsql/{connection_name}'\
                             .format(
                             user=CLOUDSQL_USER, password=CLOUDSQL_PASSWORD,
-                            database=CLOUDSQL_DATABASE, connection_name=CLOUDSQL_CONNECTION_NAME)
+                         database=CLOUDSQL_DATABASE, connection_name=CLOUDSQL_CONNECTION_NAME)
 
 # Define the LOCAL database
 # SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:BhCnutpg1!@35.184.89.176/franfave'
