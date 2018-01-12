@@ -15,3 +15,6 @@ resources:
   cpu: 1
   memory_gb: 2
   disk_size_gb: 10
+
+beta_settings:
+    cloud_sql_instances: "franfave-191811:us-central1:franfave"
