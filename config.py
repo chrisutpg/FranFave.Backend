@@ -17,15 +17,27 @@ CLOUDSQL_PASSWORD = 'BhCnutpg1!'
 CLOUDSQL_DATABASE = 'franfave'
 CLOUDSQL_CONNECTION_NAME = 'franfave-191811:us-central1:franfave'
 
-# Define Live Database
-SQLALCHEMY_DATABASE_URI = 'postgresql://{user}:{password}@/{database}?host=/cloudsql/{connection_name}'\
-                            .format(
-                            user=CLOUDSQL_USER, password=CLOUDSQL_PASSWORD,
-                         database=CLOUDSQL_DATABASE, connection_name=CLOUDSQL_CONNECTION_NAME)
+
+# Define the CLOUD Database
+CLOUD_DATABASE_URI = 'postgresql://{user}:{password}@/{database}?host=/cloudsql/{connection_name}'\
+                                                                        .format(user=CLOUDSQL_USER,
+                                                                        password=CLOUDSQL_PASSWORD,
+                                                                        database=CLOUDSQL_DATABASE,
+                                                                        connection_name=CLOUDSQL_CONNECTION_NAME)
 
 # Define the LOCAL database
-# SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:BhCnutpg1!@35.184.89.176/franfave'
+LOCAL_DATABASE_URI = 'postgresql://postgres:mdhsgolf1@localhost/ultrafran'
+
+
+# Database Options
 DATABASE_CONNECT_OPTIONS = {}
+
+
+# Find Out Where We Go For Database Connection
+if os.environ.get('GAE_INSTANCE'):
+    SQLALCHEMY_DATABASE_URI = CLOUD_DATABASE_URI
+else:
+    SQLALCHEMY_DATABASE_URI = LOCAL_DATABASE_URI
 
 
 # Enable protection against *Cross-site Request Forgery (CSRF)*

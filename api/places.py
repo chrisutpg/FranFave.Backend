@@ -41,7 +41,7 @@ class SinglePlace(Resource):
 
 
 # End point for single place review
-@api.route('/place_review')
+@api.route('/leave_review')
 class LeaveReview(Resource):
 
     @api.expect(review_model)

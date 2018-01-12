@@ -28,6 +28,8 @@ print(place.details['address_components'][2]['short_name'])
 print(place.details['address_components'][5]['short_name'])
 print(place.details['address_components'][7]['long_name'])
 print(place.details['address_components'][6]['short_name'])
+print(place.details['international_phone_number'])
+print(place.details['name'])
 
 if our_place == place.place_id:
     print('Yes')

@@ -54,3 +54,4 @@ class Reviews(db.Model):
     cat_4 = db.Column(db.Integer, nullable=False)
     cat_5 = db.Column(db.Integer, nullable=False)
     review_avg = db.Column(db.Integer, nullable=False)
+    comments = db.Column(db.String(), nullable=True)
