@@ -54,10 +54,10 @@ def search_places(json_data):
         result_dict = {}
         result_dict['name'] = result.name
         result_dict['address'] = result.formatted_address
-        result_dict['google_rating'] = result.rating
+        result_dict['google_rating'] = str(result.rating)
         result_dict['id'] = place_id
-        result_dict['yelp_rating'] = yelp_rating
-        result_dict['avg_rating'] = avg_rating
+        result_dict['yelp_rating'] = str(yelp_rating)
+        result_dict['avg_rating'] = str(avg_rating)
         query_json.append(result_dict)
     return jsonify({'query' : query_json})
 
