@@ -1,6 +1,7 @@
 from flask_restplus import Api
 from .auth import api as auth
 from .places import api as places
+from .profiles import api as profiles
 from config import authorizations
 
 
@@ -14,3 +15,4 @@ api = Api(
 
 api.add_namespace(auth, path='/auth')
 api.add_namespace(places, path='/places')
+api.add_namespace(profiles, path='/profiles')

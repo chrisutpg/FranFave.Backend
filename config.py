@@ -10,7 +10,7 @@ BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
 
 # Turn Off SQL Tracking
-SQLALCHEMY_TRACK_MODIFICATIONS = False
+SQLALCHEMY_TRACK_MODIFICATIONS = True
 # Define for GAE Cloud SQL:
 CLOUDSQL_USER = 'postgres'
 CLOUDSQL_PASSWORD = 'BhCnutpg1!'

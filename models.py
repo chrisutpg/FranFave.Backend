@@ -13,7 +13,7 @@ class User(db.Model):
     last_name = db.Column(db.String(64),  nullable=False)
     password = db.Column(db.String(255), nullable=False)
     active = db.Column(db.Boolean, default=True)
-    registered_on = db.Column(db.DateTime, default=datetime.now(), nullable=False)
+    registered_on = db.Column(db.DateTime, default=datetime.now, nullable=False)
 
 
 class UserProfile(db.Model):
@@ -33,7 +33,7 @@ class Place(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     gid = db.Column(db.String(), nullable=False)
     name = db.Column(db.String(128), nullable=False)
-    phone1 = db.Column(db.String(10), nullable=True)
+    phone = db.Column(db.String(15), nullable=True)
     address = db.Column(db.String(128), nullable=False)
     address_city = db.Column(db.String(128), nullable=False)
     address_state = db.Column(db.String(2), nullable=False)
@@ -53,5 +53,5 @@ class Reviews(db.Model):
     cat_3 = db.Column(db.Integer, nullable=False)
     cat_4 = db.Column(db.Integer, nullable=False)
     cat_5 = db.Column(db.Integer, nullable=False)
-    review_avg = db.Column(db.Integer, nullable=False)
+    review_avg = db.Column(db.String(), nullable=False)
     comments = db.Column(db.String(), nullable=True)
