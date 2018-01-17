@@ -13,7 +13,7 @@ def api():
     API_KEY = "AIzaSyBM7aOj21cM0LyY07I0EDBSpTNwFrYxlfU"
 
     # Google Place ID for development testing
-    our_place = "ChIJn8ORMaIIwYkRDjaLeuBXyN8"
+    our_place = "ChIJU15olDoGwYkR5V4cJDvVpuI"
 
     # Yelp Keys
     clientid = "jSrFJLrPGi5-n3JuO-ySFA"
@@ -27,19 +27,23 @@ def api():
 
     # Only gives name, lat & lng
     place = google.get_place(place_id=our_place)
-    print(place.details)
+    pprint(place.details)
     print(place.details['address_components'][0]['long_name'])
     print(place.details['address_components'][1]['long_name'])
     print(place.details['address_components'][2]['short_name'])
     print(place.details['address_components'][5]['short_name'])
-    print(place.details['address_components'][7]['long_name'])
-    print(place.details['address_components'][6]['short_name'])
+    #print(place.details['address_components'][7]['long_name'])
+    #print(place.details['address_components'][6]['short_name'])
     print(place.details['international_phone_number'])
     print(place.details['name'])
 
     if our_place == place.place_id:
         print('Yes')
 
+    addr = place.details['formatted_address'].split(",")
+    print(addr)
+    print(addr[0], addr[1], addr[2][1:3].strip(), addr[2][4:9], addr[3])
+    print(len(addr[2][1:3].strip()))
 
 def app_context():
     with app.app_context():
@@ -117,6 +121,7 @@ def whos_data(place_id):
         our_data = Place.query.filter(Place.id == place_id).first()
         return our_data
 
+"""
 with app.app_context():
     total = 0
     get_reviews = Reviews.query.filter(Reviews.place_id == 14).all()
@@ -126,3 +131,6 @@ with app.app_context():
         if total <= 10:
             print(x.id, x.review_date)
     print(total)
+"""
+
+api()

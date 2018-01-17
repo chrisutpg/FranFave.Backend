@@ -35,7 +35,7 @@ def search_places(json_data):
 
     # Call the Places API to search for our places
     try:
-        search = google.text_search(query=search_term, location=location)
+        search = google.nearby_search(keyword=search_term, location=location, rankby='distance')
     except HTTPError:
         return {'Err': "Uh Oh.. It looks like something went wrong. Check the search terms or try again in a bit!"}
 
@@ -168,7 +168,7 @@ def single_place(json_data):
             cat4_scores = 0
             cat5_scores = 0
 
-            # Set a list for individual reviews, we limit the length to 10 reviews
+            # Set a list for individual reviews, we limit the length to 100 reviews
             each_review = []
 
             # Calulate overall reviews and avgs
@@ -186,7 +186,8 @@ def single_place(json_data):
                     get_name = User.query.filter(User.id == review.reviewer_id).first()
 
                     temp_dict = {}
-                    temp_dict['first_name'] = get_name.first_name
+                    temp_dict['first_name'] = get_name.first_name + " " + get_name.last_name[0]
+                    temp_dict['reviewer_id'] = review.reviewer_id
                     temp_dict['review_id'] = review.id
                     temp_dict['cat1_score'] = review.cat_1
                     temp_dict['cat2_score'] = review.cat_2
@@ -287,7 +288,7 @@ def leave_review(current_user, json_data):
         date = visited_date[0:10]
         date_obj = datetime.strptime(date, '%Y-%m-%d')
     else:
-        date_obj = datetime.now()
+        date_obj = None
 
 
     # TODO add something to see if any fields are blank
@@ -317,4 +318,4 @@ def leave_review(current_user, json_data):
 
     # TODO add the factors
 
-    return {'Success': 'Thanks for reviewing this location!'}, 200
+    return {'Success': 'Thanks for reviewing this location!', 'place_id': fkey_place}, 200
