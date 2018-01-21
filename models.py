@@ -27,6 +27,9 @@ class UserProfile(db.Model):
     address_zip = db.Column(db.String(128), nullable=True)
     birthday = db.Column(db.DateTime, nullable=True)
 
+my_places = db.Table('my_places',
+                          db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
+                          db.Column('place_id', db.Integer, db.ForeignKey('place.id')))
 
 class Place(db.Model):
     __tablename__ = 'place'

@@ -28,14 +28,21 @@ CLOUD_DATABASE_URI = 'postgresql://{user}:{password}@/{database}?host=/cloudsql/
 # Define the LOCAL database
 LOCAL_DATABASE_URI = 'postgresql://postgres:mdhsgolf1@localhost/ultrafran'
 
+# Need this for running updates to the cloud database
+CLOUD_DATABASE_UPDATE_URI = 'postgresql://postgres:BhCnutpg1!@35.184.89.176/franfave'
+
 
 # Database Options
 DATABASE_CONNECT_OPTIONS = {}
 
+# Run Updates to Cloud DB
+update_cloud_db = False
 
 # Find Out Where We Go For Database Connection
 if os.environ.get('GAE_INSTANCE'):
     SQLALCHEMY_DATABASE_URI = CLOUD_DATABASE_URI
+elif update_cloud_db is True:
+    SQLALCHEMY_DATABASE_URI = CLOUD_DATABASE_UPDATE_URI
 else:
     SQLALCHEMY_DATABASE_URI = LOCAL_DATABASE_URI
 

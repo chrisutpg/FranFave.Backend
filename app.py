@@ -11,7 +11,7 @@ app = Flask(__name__)
 
 
 # CORS support for AngularJS Development
-CORS(app)
+CORS(app, origins=['*'])
 
 
 # Init api

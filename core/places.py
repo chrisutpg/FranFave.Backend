@@ -24,20 +24,29 @@ def search_places(json_data):
     :param json_data: search term, or keyword, location, zip or city/state
     :return: list of results in JSON
     """
-
-    # Get the keyword to search for, and the location
+    print(json_data)
+    # Get the keyword to search for, and the location, possibly longitude/latitude
     # TODO add some kind of check to make sure it is a franchise/chain?
     search_term = json_data['keyword']
     location = json_data['location']
+    long = json_data['long']
+    lat = json_data['lat']
 
     # Set the return list to empty before we start adding to it
     search_return = []
 
-    # Call the Places API to search for our places
-    try:
-        search = google.nearby_search(keyword=search_term, location=location, rankby='distance')
-    except HTTPError:
-        return {'Err': "Uh Oh.. It looks like something went wrong. Check the search terms or try again in a bit!"}
+    if long is None and lat is None:
+        # Call the Places API to search for our places
+        try:
+            search = google.nearby_search(keyword=search_term, location=location, rankby='distance')
+        except HTTPError:
+            return {'Err': "Uh Oh.. It looks like something went wrong. Check the search terms or try again in a bit!"}
+    else:
+        # Call the Places API to search for our places
+        try:
+            search = google.nearby_search(keyword=search_term, lat_lng={"lat": lat, "lng": long}, rankby='distance')
+        except HTTPError:
+            return {'Err': "Uh Oh.. It looks like something went wrong. Check the search terms or try again in a bit!"}
 
     # If we provide correct stuff, but get nothing back
     if search is None:
@@ -181,7 +190,7 @@ def single_place(json_data):
                 cat4_scores += review.cat_4
                 cat5_scores += review.cat_5
 
-                # If our total_reviews less 10, continue
+                # If our total_reviews less 100, continue
                 if total_reviews <= 100:
                     get_name = User.query.filter(User.id == review.reviewer_id).first()
 
@@ -319,3 +328,69 @@ def leave_review(current_user, json_data):
     # TODO add the factors
 
     return {'Success': 'Thanks for reviewing this location!', 'place_id': fkey_place}, 200
+
+def recent_reviews(json_data):
+    """
+    This function return the x amount of recent reviews
+    :param json_data: the amount of reviews to return
+    :return: the reviews in date order from most recent to oldest
+    """
+
+    # Find out how many we need to retrieve
+    how_many = json_data['how_many']
+
+    # Retrieve them from the reviews database
+    reviews = db.session.query(Reviews).order_by(Reviews.review_date.desc()).limit(how_many).all()
+
+    # Set empty dict for json returns
+    recents = {}
+
+    # Set empty list for appending
+    review_list = []
+
+    # Loop through the reviews for the details
+    for review in reviews:
+        temp_dict = {}
+        temp_dict['reviewer_id'] = review.reviewer_id
+        temp_dict['review_id'] = review.id
+        temp_dict['place_id'] = review.place_id
+        temp_dict['cat1_score'] = review.cat_1
+        temp_dict['cat2_score'] = review.cat_2
+        temp_dict['cat3_score'] = review.cat_3
+        temp_dict['cat4_score'] = review.cat_4
+        temp_dict['cat5_score'] = review.cat_5
+        temp_dict['comments'] = review.comments
+
+        # Get the visited date & review date and send them back
+        throw_visited = review.visited_date
+        throw_reviewed = review.review_date
+
+        # Turn them into strings
+        temp_dict['visited_date'] = str(throw_visited)[0:10]
+        temp_dict['review_date'] = str(throw_reviewed)[0:10]
+
+        # Round the avg score something readable
+        throw_avg = float(review.review_avg)
+        avg_score = round(throw_avg * 2) / 2
+        temp_dict['avg_score'] = str(avg_score)
+
+        # Get the info for PLACE in this review
+        place = Place.query.filter(Place.id == review.place_id).first()
+
+        # Get the name for the profile
+        get_name = User.query.filter(User.id == review.reviewer_id).first()
+
+        # Set the name
+        temp_dict['reviewer_name'] = get_name.first_name + " " + get_name.last_name[0]
+
+        # Set the name of the place
+        temp_dict['place_name'] = place.name
+
+        # Set the place address
+        temp_dict['address'] = place.address + ", " + place.address_city + ", " + place.address_state + " " + place.address_zip
+
+        review_list.append(temp_dict)
+
+    recents['reviews'] = review_list
+
+    return recents, 200
