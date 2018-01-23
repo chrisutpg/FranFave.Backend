@@ -67,3 +67,16 @@ authorizations = {
         'name': 'X-API-KEY'
     }
 }
+
+# Flask Mail Settings
+MAIL_SERVER = 'gator3119.hostgator.com'
+MAIL_PORT = 465
+MAIL_USE_TLS = False
+MAIL_USE_SSL = True
+MAIL_DEBUG = True
+MAIL_USERNAME = 'chris@uptopargolf.com'
+MAIL_PASSWORD = 'mdhsgolf1'
+MAIL_DEFAULT_SENDER = None
+MAIL_MAX_EMAILS = None
+MAIL_SUPPRESS_SEND = False
+MAIL_ASCII_ATTACHMENTS = False

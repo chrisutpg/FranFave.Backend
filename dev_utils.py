@@ -1,10 +1,11 @@
 from googleplaces import GooglePlaces
 from yelpapi import YelpAPI
 from pprint import pprint
+from flask_mail import Message
 from datetime import datetime
 from models import db, Place, Reviews
 from flask import Flask, current_app
-from app import app
+from app import app, mail
 
 
 
@@ -121,16 +122,10 @@ def whos_data(place_id):
         our_data = Place.query.filter(Place.id == place_id).first()
         return our_data
 
-"""
-with app.app_context():
-    total = 0
-    get_reviews = Reviews.query.filter(Reviews.place_id == 14).all()
-    test = db.session.query(Reviews).filter(Reviews.place_id == 14).order_by(Reviews.review_date.desc()).all()
-    for x in test:
-        total += 1
-        if total <= 10:
-            print(x.id, x.review_date)
-    print(total)
-"""
 
-api()
+with app.app_context():
+    msg = Message("Hello",
+                  sender="chris@uptopargolf.com",
+                  recipients=["chris@uptopargolf.com"])
+    msg.body = 'Testing'
+    mail.send(msg)

@@ -2,6 +2,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from models import User, UserProfile, db
 from sqlalchemy.exc import IntegrityError
 from flask import request
+from flask_mail import Mail, Message
 from config import SECRET_KEY
 from functools import wraps
 import jwt
@@ -78,6 +79,16 @@ def login_user(json_data):
     :param json_data: data from endpoint auth/login_user
     :return: 200 status & JWT if logged in, otherwise 401 and try again
     """
+    mail = Mail()
+    print('1')
+    msg = Message("Hello",
+                  sender="chris@uptopargolf.com",
+                  recipients=["chris@uptopargolf.com"])
+    print('2')
+    msg.body = 'Testing'
+    print('3')
+    mail.send(msg)
+    print('4')
 
     # Get user data
     email = json_data['email']

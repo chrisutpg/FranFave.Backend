@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_mail import Mail
 from flask_cors import CORS
 from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
@@ -20,6 +21,10 @@ api.init_app(app)
 
 # Configurations
 app.config.from_object('config')
+
+
+# Start the Mails
+mail = Mail(app)
 
 
 # Define the database object
